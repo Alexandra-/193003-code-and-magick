@@ -12,9 +12,7 @@ var TEXT_HEIGHT = 20;
 var BAR_WIDTH = 40;
 var FONT = '16px PT Mono';
 var USER_Y = CLOUD_Y + CLOUD_PADDING + (TEXT_HEIGHT + FONT_GAP) * 2 + TEXT_HEIGHT;
-var barMaxHeight = 150;
-var barHeight;
-var barY;
+var BAR_MAX_HEIGHT = 150;
 
 var renderCloud = function(ctx, x, y, color) {
   ctx.fillStyle = color;
@@ -22,11 +20,11 @@ var renderCloud = function(ctx, x, y, color) {
 };
 
 var getMaxElement = function(arr) {
-  var maxElement = Math.floor(arr[0]);
+  var maxElement = arr[0];
 
-  for (var i = 0; i <= arr.length - 1; i++) {
-    if (Math.floor(arr[i]) > maxElement) {
-      maxElement = Math.floor(arr[i]);
+  for (var i = 1; i < arr.length; i++) {
+    if (arr[i] > maxElement) {
+      maxElement = arr[i];
     }
   }
 
@@ -34,10 +32,11 @@ var getMaxElement = function(arr) {
 }
 
 var getRandomNum = function(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+  return Math.random() * (max - min + 1) + min;
 };
 
 window.renderStatistics = function (ctx, names, times) {
+  console.log(times);
   renderCloud(ctx, CLOUD_X + SHADOW_SHIFT, CLOUD_Y + SHADOW_SHIFT, 'rgba(0, 0, 0, 0.7)');
   renderCloud(ctx, CLOUD_X, CLOUD_Y, '#fff');
 
@@ -46,20 +45,23 @@ window.renderStatistics = function (ctx, names, times) {
   ctx.fillText('Ура вы победили!', CLOUD_X + CLOUD_PADDING, CLOUD_Y + CLOUD_PADDING);
   ctx.fillText('Список результатов:', CLOUD_X + CLOUD_PADDING, CLOUD_Y + CLOUD_PADDING + TEXT_HEIGHT + FONT_GAP);
 
-  var maxTime = getMaxElement(times);
+  var maxTime = Math.floor(getMaxElement(times));
 
-  for (var j = 0; j <= names.length - 1; j++) {
-    barHeight = times[j] * barMaxHeight / maxTime;
-    barY = (barMaxHeight - barHeight) + CLOUD_Y + CLOUD_PADDING + (TEXT_HEIGHT + FONT_GAP) * 3 + FONT_GAP;
+  var barHeight;
+  var barY;
+  var randomNum;
+
+  for (var j = 0; j < names.length; j++) {
+    barHeight = times[j] * BAR_MAX_HEIGHT / maxTime;
+    barY = (BAR_MAX_HEIGHT - barHeight) + CLOUD_Y + CLOUD_PADDING + (TEXT_HEIGHT + FONT_GAP) * 3 + FONT_GAP;
     ctx.fillStyle = "#000";
     ctx.fillText(names[j], CLOUD_X + CLOUD_PADDING + (BAR_WIDTH + GAP) * j, USER_Y);
-
-    var randomNum;
 
     if (names[j] === 'Вы') {
       ctx.fillStyle = 'rgba(255, 0, 0, 1)';
     } else {
-      randomNum = getRandomNum(0, 255);
+      randomNum = Math.floor(getRandomNum(0, 255));
+      console.log(randomNum);
       ctx.fillStyle = 'rgba(0, 0, ' + randomNum + ', 1)';
     }
     ctx.fillRect(CLOUD_X + CLOUD_PADDING + (BAR_WIDTH + GAP) * j, barY , BAR_WIDTH, barHeight);
