@@ -15,30 +15,25 @@ document.querySelector('.setup-similar').classList.remove('hidden');
 var similarListElement = document.querySelector('.setup-similar-list');
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 
-var getRandomName = function (min, max) {
-  return Math.random() * (max - min + 1) + min;
+var getRandom = function (max, min) {
+  if (typeof min === 'undefined') {
+    min = 0;
+  }
+  return Math.random() * (max - min) + min;
 };
 
 var createWizardsList = function () {
-
   var wizardName;
   var wizardSurname;
-  var wizardFullName;
-  var wizardCoatColor;
-  var wizardEyesColor;
-
   for (var k = 0; k < WIZARDS_QUANTITY; k++) {
-    wizardName = WIZARD_NAMES[Math.floor(getRandomName(0, WIZARD_NAMES.length - 1))];
-    wizardSurname = WIZARD_SURNAMES[Math.floor(getRandomName(0, WIZARD_SURNAMES.length - 1))];
-    wizardFullName = wizardName + ' ' + wizardSurname;
-    wizardCoatColor = COAT_COLOR[Math.floor(getRandomName(0, COAT_COLOR.length - 1))];
-    wizardEyesColor = EYES_COLOR[Math.floor(getRandomName(0, EYES_COLOR.length - 1))];
-    wizards[k] = {};
-    wizards[k].name = wizardFullName;
-    wizards[k].coatColor = wizardCoatColor;
-    wizards[k].eyesColor = wizardEyesColor;
+    wizardName = WIZARD_NAMES[Math.floor(getRandom(WIZARD_NAMES.length))];
+    wizardSurname = WIZARD_SURNAMES[Math.floor(getRandom(WIZARD_SURNAMES.length))];
+    wizards.push({
+      name: wizardName + ' ' + wizardSurname,
+      coatColor: COAT_COLOR[Math.floor(getRandom(COAT_COLOR.length))],
+      eyesColor: EYES_COLOR[Math.floor(getRandom(EYES_COLOR.length))]
+    });
   }
-
 };
 
 createWizardsList();
