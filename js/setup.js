@@ -19,19 +19,19 @@ var getRandom = function (max, min) {
   if (typeof min === 'undefined') {
     min = 0;
   }
-  return Math.random() * (max - min) + min;
+  return Math.floor(Math.random() * (max - min) + min);
 };
 
 var createWizardsList = function () {
   var wizardName;
   var wizardSurname;
   for (var k = 0; k < WIZARDS_QUANTITY; k++) {
-    wizardName = WIZARD_NAMES[Math.floor(getRandom(WIZARD_NAMES.length))];
-    wizardSurname = WIZARD_SURNAMES[Math.floor(getRandom(WIZARD_SURNAMES.length))];
+    wizardName = WIZARD_NAMES[getRandom(WIZARD_NAMES.length)];
+    wizardSurname = WIZARD_SURNAMES[getRandom(WIZARD_SURNAMES.length)];
     wizards.push({
       name: wizardName + ' ' + wizardSurname,
-      coatColor: COAT_COLOR[Math.floor(getRandom(COAT_COLOR.length))],
-      eyesColor: EYES_COLOR[Math.floor(getRandom(EYES_COLOR.length))]
+      coatColor: COAT_COLOR[getRandom(COAT_COLOR.length)],
+      eyesColor: EYES_COLOR[getRandom(EYES_COLOR.length)]
     });
   }
 };
